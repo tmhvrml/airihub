@@ -1,0 +1,201 @@
+# -*- coding: utf-8 -*-
+"""
+OPEN ITEMS REGISTER
+Single source of truth for everything that must be resolved before ai.ri.gov goes live.
+Each item records: severity, the exact pages affected, the generator file and function
+that produces the copy, what the current text says, and what resolving it requires.
+
+Severity: BLOCKER (cannot launch), VERIFY (unconfirmed fact), DECISION (leadership call).
+"""
+
+ITEMS = [
+ dict(id="B1-01", sev="BLOCKER", area="Governance",
+   title="Is the Hub a unit of OPC, an initiative of the Institute at RIC, or both?",
+   detail="The Business Plan (Mar 2026) calls the Hub an initiative of the Institute at RIC with the Director reporting to Congressman Langevin. The NSF proposal (Jul 2026) calls it OPC's AI arm and a permanent unit of OPC, with the Institute at RIC as its physical home. The Overview draft (12 Jul 2026) lists the OPC relationship as an open question for leadership.",
+   current="Follows the NSF proposal: 'operates as the AI arm of the Office of the Postsecondary Commissioner ... physically housed at the Institute for Cybersecurity and Emerging Technologies at Rhode Island College.'",
+   fix="Leadership decision. Then update the About overview paragraph, the Partners state-government group, and the footer address block if the legal home changes.",
+   pages=["about-overview.html","about-partners.html"], src="pg_about.py :: build() — Overview section"),
+
+ dict(id="B1-02", sev="BLOCKER", area="Grow with Google",
+   title="Co-marketing agreement is unsigned and the licence count is a placeholder",
+   detail="The June 2026 agreement in the folder has signatory name, title and date marked TBD, and the number of licences is an unfilled placeholder. Under the agreement, launch is announced by joint press release from the Governor's office, and Google holds approval rights over the release, success stories, case studies, and any use of Google's marks.",
+   current="Page is built and states 'Licences are limited and are awarded by the Hub' with an eligibility callout marked as being finalised.",
+   fix="Do not publish this page, the homepage slide 2, the What's New card, or the Google news article until the agreement is executed. Then insert the licence count and the executed eligibility criteria.",
+   pages=["education-training-grow-with-google.html","index.html","news-events-news.html"],
+   src="pg_rest.py :: build() — Grow with Google; pg_home.py :: slides[1] and whatsnew card 1"),
+
+ dict(id="B1-03", sev="BLOCKER", area="Grow with Google",
+   title="'Free to every Rhode Island resident' is not supported by the agreement",
+   detail="v2.0 of the outline claimed universal access. The agreement provides a fixed number of licences distributed at the Hub's sole discretion, and obliges the Hub to determine and verify learner eligibility.",
+   current="Corrected throughout this build. Homepage slide says 'Rhode Islanders can earn Google AI and career certificates at no cost'; the What's New card and FAQ both say licences are limited.",
+   fix="Verify no reintroduction of the universal-access claim in any future copy edit, press release, or partner material.",
+   pages=["index.html","about-faqs.html","education-training-grow-with-google.html"],
+   src="pg_home.py, pg_about.py (FAQ 3), pg_rest.py"),
+
+ dict(id="B1-04", sev="BLOCKER", area="NSF TechAccess",
+   title="Do not claim designation as Rhode Island's Coordination Hub",
+   detail="The Business Plan frames the AI RI Hub as the designated Coordination Hub. The submitted NSF proposal names URI as the submitting organisation and administrative home for RIAICH, with OPC and the AI RI Hub as statewide convening partner, under a funding firewall where federal funds pay only for coordination, not delivery.",
+   current="The Grants page describes the programme and what it funds, and claims no designation.",
+   fix="Once the award is decided AND the decision is public, update the Grants page with the accurate structure. Until then, leave as is.",
+   pages=["programs-grants.html"], src="pg_programs.py :: build() — Grants section"),
+
+ dict(id="B1-05", sev="BLOCKER", area="AICR",
+   title="Confirm agreement status, access date, funding attribution, and whether the 5% share is public",
+   detail="The Business Plan anticipated access beginning Spring 2026 and described the MGHPCC partnership agreement as still to be finalised. v2.0 also stated the AICR is 'funded by Massachusetts'. Rhode Island's share is described internally as 5 percent.",
+   current="The compute page states the verified hours, rates, storage and energy facts, and describes the resource as 'operated through' MGHPCC. It does not state a percentage share, a funding attribution, or an access date.",
+   fix="Confirm with URI and MGHPCC. Then add an access-status line ('Access opened [date]' or 'Anticipated [date]') near the top of the page.",
+   pages=["programs-ai-compute-resources.html"], src="pg_programs.py :: build() — Compute section"),
+
+ dict(id="B1-06", sev="DECISION", area="Mission",
+   title="Two competing mission statements",
+   detail="Overview draft: 'The AI-RI Hub helps Rhode Island understand AI, protect against its harms, and use it well.' The Business Plan carries a longer, different mission statement. The Overview is explicitly marked DRAFT for feedback.",
+   current="Uses the Overview wording as the lede on the homepage mission block.",
+   fix="Adopt one. If the Overview wording is kept, remove the DRAFT marking from the source document so the site has a citable mission.",
+   pages=["index.html","about-overview.html"], src="pg_home.py :: mission block"),
+
+ dict(id="B1-07", sev="BLOCKER", area="Contact",
+   title="Establish info@ai.ri.gov before launch",
+   detail="v2.0 listed info@ai.ri.gov as a placeholder alongside an individual's institutional address. Publishing a personal institutional address as the primary contact on a state site invites unsustainable volume.",
+   current="The contact page and footer publish only info@ai.ri.gov.",
+   fix="Stand up the mailbox with ETSS and configure routing by the 'Area of interest' field before the form goes live.",
+   pages=["about-contact.html"], src="pg_about.py :: build() — Contact section; shell.py :: FOOTER"),
+
+ dict(id="B1-08", sev="BLOCKER", area="Solution Registry",
+   title="Confirm legal authority to endorse commercial products",
+   detail="An endorsement programme on a .gov domain carries liability and procurement implications that a business plan does not resolve.",
+   current="Page is built with a 'What a listing means' callout, a published-criteria link, and an empty Registry table. No products are listed.",
+   fix="Clear with RIC and State counsel and with procurement. Publish the per-sector evaluation criteria and the conflict-of-interest policy as linked documents before the first listing appears.",
+   pages=["programs-solution-registry.html"], src="pg_programs.py :: build() — Solution Registry section"),
+
+ # ---- B-2 unverified carryovers ----
+ dict(id="B2-01", sev="VERIFY", area="AICR",
+   title="'Approximately 100 top-end AI GPUs' in Rhode Island's allocation",
+   detail="Appears in outline v2.0 only. Not in the Business Plan or NSF proposal; the AICR white paper could not be opened.",
+   current="Omitted from the site. Only the verified hours, rates, storage and energy facts are published.",
+   fix="Confirm with URI. Add only if confirmed.", pages=["programs-ai-compute-resources.html"], src="pg_programs.py"),
+
+ dict(id="B2-02", sev="VERIFY", area="Awards",
+   title="Excellence in Cybersecurity Award — name, awarding body, and year",
+   detail="Carried forward from v2.0; not in any of the three source documents.",
+   current="Appears as a homepage highlight card and a news item, both without a year.",
+   fix="Confirm the exact award name, body and year, then add the year.",
+   pages=["index.html","news-events-news.html"], src="pg_home.py :: highlights; pg_rest.py :: news_items[3]"),
+
+ dict(id="B2-03", sev="VERIFY", area="Grow with Google",
+   title="Google course sequences and module hours",
+   detail="v2.0 listed a course-by-course sequence for the AI Professional Certificate and module hours for AI Essentials and Agile Essentials. Not verifiable, and Google revises course structures.",
+   current="Deliberately omitted. The page lists programme names and links out to Google's own course pages.",
+   fix="Keep as is unless the Hub commits to a quarterly review owner for curriculum detail.",
+   pages=["education-training-grow-with-google.html"], src="pg_rest.py"),
+
+ dict(id="B2-04", sev="VERIFY", area="Training resources",
+   title="Microsoft AI Skills Navigator and Anthropic Academy descriptions",
+   detail="Carried forward from v2.0; not corroborated by the three source documents.",
+   current="Both are described on the Additional Resources page.",
+   fix="Verify current programme names, structure and cost. Check each provider's terms on describing their programmes on a government site.",
+   pages=["education-training-additional-resources.html"], src="pg_rest.py"),
+
+ dict(id="B2-05", sev="VERIFY", area="Responsible AI",
+   title="NIST AI 100-2e2025 and NIST SP 1300 document identifiers",
+   detail="Cited in v2.0. Exact identifiers unconfirmed.",
+   current="Omitted. The page cites only the NIST AI RMF, NIST CSF 2.0, OWASP Top 10 for LLM Applications, MITRE ATLAS, and DOL worker-centered principles.",
+   fix="Confirm identifiers, then add if wanted.", pages=["programs-responsible-ai-governance.html"], src="pg_programs.py"),
+
+ dict(id="B2-06", sev="VERIFY", area="Cyber practicum",
+   title="Security+ practicum date and named range vendors",
+   detail="v2.0 dated the practicum to Summer 2026 (now past) and named FlexLabs, Cloud Range, and the IBM X-Force Cyber Range at RIC. None appear in the source documents.",
+   current="Vendor names and the date are omitted. The page refers to 'the Institute's cyber range facilities at Rhode Island College'.",
+   fix="Confirm which facilities and vendor agreements are live, then name them and add current session dates.",
+   pages=["education-training-cyber-ai-practicum.html"], src="pg_rest.py"),
+
+ dict(id="B2-07", sev="VERIFY", area="People",
+   title="Beauchemin, Horwitz, and Ottun (MOCCA) roles",
+   detail="Listed in v2.0 as advisory and partner contributors. None appear in the three source documents.",
+   current="Omitted from the team page.",
+   fix="Confirm current roles and decide whether each belongs on Leadership & Team, on Partners, or nowhere.",
+   pages=["about-team.html"], src="pg_about.py :: build() — Team section"),
+
+ dict(id="B2-08", sev="VERIFY", area="Partners",
+   title="MOCCA Strategic Consulting as workshop co-facilitator",
+   detail="Named in v2.0. Not in the source documents.",
+   current="Omitted from the small business page.",
+   fix="Confirm the engagement is current and contracted before naming a vendor on a state site.",
+   pages=["programs-small-business-nonprofit.html"], src="pg_programs.py"),
+
+ dict(id="B2-09", sev="VERIFY", area="Partners",
+   title="Salve Regina, Microsoft, and Anthropic listed as partners",
+   detail="v2.0 listed all three as partners. The source documents describe Microsoft and Anthropic only as free training resources the Hub points to — a different relationship. Salve Regina does not appear.",
+   current="Removed from the Partners page. Microsoft and Anthropic appear only on the Additional Training Resources page.",
+   fix="Confirm whether Salve Regina is a partner. Do not restore Microsoft or Anthropic to Partners without a partnership agreement.",
+   pages=["about-partners.html","education-training-additional-resources.html"], src="pg_about.py"),
+
+ dict(id="B2-10", sev="VERIFY", area="Naming",
+   title="RIOPC vs OPC — correct current name",
+   detail="The Overview draft uses RIOPC; the NSF proposal uses OPC / Office of the Postsecondary Commissioner.",
+   current="Uses 'Office of the Postsecondary Commissioner' throughout.",
+   fix="Confirm the preferred public name and apply consistently.",
+   pages=["about-overview.html","about-partners.html","news-events-ai-summit.html"], src="pg_about.py, pg_rest.py"),
+
+ dict(id="B2-11", sev="VERIFY", area="Statistics",
+   title="56% AI-skills wage premium is unsourced",
+   detail="Appears in the Overview draft with no citation.",
+   current="Published in the homepage statistics band. The Sources section cites the other three figures but cannot cite this one.",
+   fix="Attach a citation or remove the stat. If removed, the band drops to three figures, which still works.",
+   pages=["index.html"], src="pg_home.py :: statband and sources section"),
+
+ dict(id="B2-12", sev="VERIFY", area="People",
+   title="Langevin as chair of the Governor's AI Task Force",
+   detail="v2.0 says he chaired the Task Force. The source documents confirm him as Distinguished Chair of the Institute and name Dr. Henry as the Task Force's academic lead, but do not name the Task Force chair.",
+   current="His Task Force role is omitted; the bio describes only his Institute role.",
+   fix="Confirm who chaired the Task Force, then add.", pages=["about-team.html"], src="pg_about.py"),
+
+ # ---- build decisions ----
+ dict(id="B3-01", sev="DECISION", area="Jobs Board",
+   title="Confirm the Jobs Board is in scope and choose a build option",
+   detail="Nothing in the three source documents describes a jobs board, its scope, or an owner. Options: (1) curated listing maintained by Hub staff; (2) filtered feed from SkillsRI or DLT — recommended; (3) self-serve employer posting tool.",
+   current="Built as a prototype with two example listings and an explicit 'not live yet' callout, plus an employer posting form.",
+   fix="Confirm scope and owner, choose an option, and publish a posting policy with a removal date on every listing. If it will not be staffed, remove the section and the nav item.",
+   pages=["jobs.html"], src="pg_rest.py :: Jobs section; lib.py :: NAV"),
+
+ dict(id="B3-02", sev="DECISION", area="Cohort pricing",
+   title="Publish cohort pricing or keep it behind a contact link",
+   detail="The Business Plan gives $500–$1,500 subsidised and $2,000–$5,000 private-sector per participant. Unconfirmed as final.",
+   current="No figures published. The page says seats are subsidised and links to contact.",
+   fix="Confirm final pricing, then either publish the figures or keep the contact link.",
+   pages=["programs-workforce-credentialing.html"], src="pg_programs.py"),
+
+ dict(id="B3-03", sev="DECISION", area="Activity dashboard",
+   title="Set the reporting start date and confirm the data pipeline",
+   detail="The NSF proposal commits to a public dashboard fed by quarterly partner reporting, with the master dataset held by URI's Office of Strategic Initiatives.",
+   current="Page is built with the metric framework in place and all counters showing an em dash.",
+   fix="Set a target date for the first reporting quarter and put it on the page. Confirm the partner reporting templates exist.",
+   pages=["news-events-activity.html"], src="pg_rest.py :: Activity section"),
+
+ dict(id="B3-04", sev="DECISION", area="Images",
+   title="Commission or source the launch-priority photographs",
+   detail="Five images are needed at launch; four more are gated on events happening or releases being signed.",
+   current="Every image on the site is a labelled placeholder describing the planned asset, its alt text, and its priority.",
+   fix="Homepage hero and MGHPCC facility photo are the two that matter most. Request the MGHPCC image with licence terms in writing.",
+   pages=["index.html","programs-ai-compute-resources.html","about-team.html","about-partners.html"],
+   src="lib.py :: ph(); see Appendix A of the outline document"),
+
+ dict(id="B3-05", sev="DECISION", area="Hosting",
+   title="Confirm ETSS publishing workflow and content-owner permissions",
+   detail="The NSF proposal states ETSS hosts ai.ri.gov at no cost and it remains a permanent state digital service.",
+   current="Prototype is static HTML modelled on eCMS conventions, not built in eCMS itself.",
+   fix="Confirm the eCMS theme, component availability, publishing workflow, and who holds edit rights before the build begins.",
+   pages=["*"], src="assets/style.css — palette anchors from outline v3.0"),
+
+ dict(id="B3-06", sev="DECISION", area="Language",
+   title="Spanish translation for launch",
+   detail="The NSF proposal commits ai.ri.gov to English/Spanish entry points.",
+   current="A language selector is present in the settings ribbon but only English content exists.",
+   fix="Decide scope — full translation or key pages only — and budget for it. At minimum: Home, Grow with Google, Small Business, and Contact.",
+   pages=["*"], src="shell.py :: RIBBON"),
+]
+
+def counts():
+    c = {}
+    for i in ITEMS:
+        c[i["sev"]] = c.get(i["sev"], 0) + 1
+    return c
